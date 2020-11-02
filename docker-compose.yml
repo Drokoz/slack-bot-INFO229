@@ -2,17 +2,17 @@ version: '3.6'
 services:  
   nestor:
     build:
-      context: ./nestor
-    container_name: nestor_slackconnector
+      context: ./speedy
+    container_name: speedy_slackconnector
     environment:
       - MONGO_HOST=database
     depends_on:
       - database
   database:
     image: mongo
-    container_name: nestor_mongo
+    container_name: speedy_mongo
     environment:
-      - MONGO_INITDB_DATABASE=nestor
+      - MONGO_INITDB_DATABASE=speedy
     volumes:
       - ./mongodata:/data/db
     ports:

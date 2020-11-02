@@ -2,15 +2,15 @@ FROM python:3.6.3
 
 ENV MONGO_HOST localhost
 ENV MONGO_PORT 27017
-ENV SLACK_TOKEN="xoxb-1444629029761-1425284248550-yG9HGBRwjIdlJxqaW1xDB1B0"
+ENV SLACK_TOKEN=""
 
 COPY ./requirements.txt /requirements.txt
 
 RUN pip install -r /requirements.txt
 
-WORKDIR /nestor
+WORKDIR /speedy
 
-COPY ./nestorbot.py /nestorbot.py
-COPY ./nestorbot_app.py /nestorbot_app.py
+COPY ./speedy.py /speedy.py
+COPY ./speedybot_app.py /speedybot_app.py
 
-CMD [ "python", "/nestorbot_app.py" ]
+CMD [ "python", "/speedybot_app.py" ]
