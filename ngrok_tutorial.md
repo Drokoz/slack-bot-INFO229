@@ -113,5 +113,7 @@ Y terminamos, esto debería hacer que nuestro bot pueda reaccionar a los eventos
 Links de donde se sacó la información: 
 
 1.[Pagina de ngrok](https://ngrok.com/)
+
 2.[Slack Github Events API](https://github.com/slackapi/python-slack-events-api/tree/main/example)
+
 3.[Slack Github Tutorial](https://github.com/slackapi/python-slack-sdk/tree/main/tutorial)
