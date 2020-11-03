@@ -1,9 +1,9 @@
 from slack import WebClient
 from speedy import speedyBot
-from flask import Flask
 from slackeventsapi import SlackEventAdapter
 import logging
 import os
+
 #app = Flask(__name__)
 slack_events_adapter = SlackEventAdapter(os.environ['SLACK_SIGNING_SECRET'], endpoint="/slack/event")
 slack_web_client = WebClient(token=os.environ['SLACK_TOKEN'])

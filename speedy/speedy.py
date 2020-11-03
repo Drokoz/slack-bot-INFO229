@@ -11,24 +11,26 @@ class speedyBot:
 
     # The constructor for the class. It takes the channel name as the a
     # parameter and then sets it as an instance variable
+    HOLA_BLOCK = {
+        "type": "section",
+        "text": {
+            "type": "mrkdwn",
+            "text": (
+                "Hola! "
+            ),
+        },
+    }
     def __init__(self, channel):
         self.channel = channel
 
     def _choose_message(self):
+        rand_int =  random.randint(0,1)
+        if rand_int == 0:
+            results = "Buenos días!"
+        else:
+            results = "Buenas tardes!"
 
-        # Conexión a MONGO
-        myclient = pymongo.MongoClient(
-            host=os.environ['MONGO_HOST'], port=int(os.environ['MONGO_PORT']))
-        db = myclient[DATABASE]
-        col = db[COLLECTION]
-
-        # Consulta hacia la base de datos de citaciones para extraer una muestra aleatoria
-        var = [{'$sample': {'size': 1}}]
-        results = col.aggregate(var)
-
-        text = " "
-        for doc in results:
-            text = doc["text"]
+        text = f"{results}"
 
         return {"type": "section", "text": {"type": "mrkdwn", "text": text}},
 
@@ -37,7 +39,7 @@ class speedyBot:
         return {
             "channel": self.channel,
             "blocks": [
+                self.HOLA_BLOCK,
                 *self._choose_message(),
             ],
-        }    
-    
+        }
