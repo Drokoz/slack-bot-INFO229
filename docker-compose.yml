@@ -1,6 +1,6 @@
 version: '3.6'  
 services:  
-  nestor:
+  speedy:
     build:
       context: ./speedy
     container_name: speedy_slackconnector
@@ -8,13 +8,15 @@ services:
       - MONGO_HOST=database
     depends_on:
       - database
+    expose:
+      - 3000
   database:
     image: mongo
     container_name: speedy_mongo
     environment:
       - MONGO_INITDB_DATABASE=speedy
     volumes:
-      - ./mongodata:/data/db
+      - /home/drokoz/Documents/volumen/mongo_data:/data/db
     ports:
       - '27017-27019:27017-27019'
 
