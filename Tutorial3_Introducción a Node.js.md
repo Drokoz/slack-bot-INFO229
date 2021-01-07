@@ -1,7 +1,3 @@
----
-
-
----
 
 <h1 id="introducción-a-node.js">Introducción a Node.JS</h1>
 <p><img src="https://www.arsys.es/blog/file/uploads/2019/05/mayo-2019-nodejs.jpg" alt="Logo"></p>
