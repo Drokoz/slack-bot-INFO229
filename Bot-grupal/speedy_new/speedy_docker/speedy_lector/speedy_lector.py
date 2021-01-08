@@ -3,7 +3,7 @@ import sys
 import time
 import os
 import logging
-import pymongo
+from pymongo import *
 from flask import Flask
 from slackeventsapi import SlackEventAdapter
 from slack import WebClient
@@ -26,8 +26,8 @@ def start_onboarding_text(channel: str, text: str):
             }
         ]
     }
-    #slack_web_client.chat_postMessage(**message)
-    channel.basic_publish(exchange='speedy', routing_key="publicar_slack", body=text)
+    slack_web_client.chat_postMessage(**message)
+    #channel.basic_publish(exchange='speedy', routing_key="publicar_slack", body=text)
 
 
 def get_doc(mensaje):
@@ -76,16 +76,16 @@ slack_web_client = WebClient(token=os.environ.get("SLACK_TOKEN"))
 
 print(os.environ.get("SLACK_TOKEN"))
 
-client = pymongo.MongoClient(os.environ.get("MONGO_HOST"), int(os.environ.get("MONGO_PORT")))
-databases = client.list_database_names()
+client = MongoClient(host=os.environ['MONGO_HOST'], port=int(os.environ['MONGO_PORT']))
+#databases = client.list_database_names()
 
-if DATABASE not in (databases):
-    db = client[DATABASE]
-    mensajes = slack_web_client.conversations_history(channel="C01CQ057JM8")
-    for mensaje in mensajes['messages']:
-        collection = db[mensaje['user']]
-        doc = get_doc(mensaje)
-        collection.insert_one(doc)
+#if DATABASE not in (databases):
+    #db = client[DATABASE]
+    #mensajes = slack_web_client.conversations_history(channel="#desarrollo")
+    #for mensaje in mensajes['messages']:
+    #    collection = db[mensaje['user']]
+    #    doc = get_doc(mensaje)
+    #    collection.insert_one(doc)
 
 # An example of one of your Flask app's routes
 @app.route("/")
@@ -95,7 +95,7 @@ def hello():
 @ slack_events_adapter.on("message")
 def message(payload):
     #Inicio mongo
-    client = pymongo.MongoClient(os.environ.get("MONGO_HOST"), int(os.environ.get("MONGO_PORT")))
+    client = MongoClient(host=os.environ.get("MONGO_HOST"), port=int(os.environ.get("MONGO_PORT")))
     db = client[DATABASE]
 
     #Obtención de evento
@@ -104,7 +104,7 @@ def message(payload):
     user_id = event.get("user")
     text = event.get("text")
     
-    if text.startwith("!help"):
+    if text.startswith("!help"):
         mensaje = "Para saber el último mensaje de un usuario escriba: 'último mensaje de @user' \n Para saber la cantidad de mensajes de un usuario: 'cúantos mensajes ha enviado @user'"
         start_onboarding_text(channel_id,mensaje)
     #Ver si es alguna de las consultas de último mensaje o cuantos mensajes
@@ -128,6 +128,7 @@ def message(payload):
     doc = get_doc(event)
     collection = db[user_id]
     collection.insert_one(doc)
+    print("mensaje guardado!")
 
 if __name__ == "__main__":
     # Create the logging object
