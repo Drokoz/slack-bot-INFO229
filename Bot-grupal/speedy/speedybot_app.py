@@ -4,6 +4,7 @@ from slackeventsapi import SlackEventAdapter
 import pymongo
 import logging
 import os
+
 DATABASE = "speedy_mensajes"
 
 # app = Flask(__name__)
