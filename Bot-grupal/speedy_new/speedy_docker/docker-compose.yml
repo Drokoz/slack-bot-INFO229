@@ -4,7 +4,7 @@ services:
     image: mongo
     container_name: speedy_mongo
     environment:
-      - MONGO_INITDB_DATABASE=speedy_mensajes
+      - MONGO_INITDB_DATABASE=test
     volumes:
       - ./mongodata:/data/db
     ports:

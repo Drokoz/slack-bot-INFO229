@@ -14,6 +14,7 @@ DATABASE = "speedy_mensajes"
 
 def start_onboarding_text(channel: str, text: str):
     # Create a new onboarding tutorial.
+    slack_web_client = WebClient(token=os.environ.get("SLACK_TOKEN"))
     message = {
         "channel": channel,
         "blocks": [
@@ -120,6 +121,7 @@ def message(payload):
         else:
             count = collection.find().count()
             response = ("La cantidad de mensajes de @" + user_name + " es: " + str(count))
+        #channel.basic_publish(exchange='speedy', routing_key="publicar_slack", body=response)
         start_onboarding_text(channel_id, response)   
     #Si le dicen Hello, le contesta con Hola
     
