@@ -42,9 +42,12 @@ Para extraer información usando web scraping se deben seguir los siguientes pas
  ### 1. Encontrar el URL que se quiere obtener información.
 En este caso usaremos SoloTodo una página de venta el cual buscaremos el precio y nombre  de computadores.
 ### 2. Inspeccionar la página.
-
+![inspeccionar](https://github.com/Drokoz/slack-bot-INFO229/blob/master/Tutorial_6_WebScraping/tutorial2-imagenes/inspeccionar.png) 
 ### 3. Encontrar la data inspeccionando los elementos que queremos obtener.
-
+![selec](https://github.com/Drokoz/slack-bot-INFO229/blob/master/Tutorial_6_WebScraping/tutorial2-imagenes/selec.png) 
+![selec1](https://github.com/Drokoz/slack-bot-INFO229/blob/master/Tutorial_6_WebScraping/tutorial2-imagenes/selec2.png) 
+![selec2](https://github.com/Drokoz/slack-bot-INFO229/blob/master/Tutorial_6_WebScraping/tutorial2-imagenes/selec3.png) 
+![selec3](https://github.com/Drokoz/slack-bot-INFO229/blob/master/Tutorial_6_WebScraping/tutorial2-imagenes/selec4.png) 
 ### 4. Escribir el código.
 Primero se deberá crear el archivo Python, esto se puede hacer de varias maneras, pero se usará el siguiente comando en la carpeta que desea realizar su proyecto.
 En este caso llamaremos al archivo "ws_soloTodo"
@@ -76,7 +79,6 @@ Ahora el código principal.
 content = driver.page_source 
 #Transformar la consulta a ua forma legible
 soup = BeautifulSoup(content)
-
 #Iterar en todo lo encontrado e ir extrayendo lo necesario solamente
 for a in soup.findAll('a',href=True, attrs={'class':'_31qSD5'}):
 	name=a.find('div', attrs={'class':'_3wU53n'})
@@ -95,3 +97,9 @@ df.to_csv('products.csv', index=False, encoding='utf-8')
 ~~~
 Esto almacenará lo obtenido en un "data frame" de pandas para luego ser convertido a un archivo csv (tipo 'excel')
 
+## Documentación
+- [1](https://www.dataquest.io/blog/web-scraping-tutorial-python/)
+- [2](https://www.ionos.es/digitalguide/paginas-web/desarrollo-web/web-scraping-con-python/)
+- [3](https://selenium-python.readthedocs.io/)
+- [4](https://pandas.pydata.org/#:~:text=pandas%20is%20a%20fast%2C%20powerful,of%20the%20Python%20programming%20language.)
+- [5](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
