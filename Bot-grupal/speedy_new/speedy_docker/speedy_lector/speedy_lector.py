@@ -68,7 +68,7 @@ channel.exchange_declare(exchange='speedy', exchange_type='topic', durable=True)
 app = Flask(__name__)
 
 # Create an events adapter and register it to an endpoint in the slack app for event injestion.
-slack_events_adapter = SlackEventAdapter(os.environ.get("SLACK_SIGNING_SECRET"), "/slack/events", app)
+slack_events_adapter =  SlackEventAdapter(os.environ.get("SLACK_SIGNING_SECRET"), "/slack/events", app)
 
 print(os.environ.get("SLACK_SIGNING_SECRET"))
 
@@ -78,15 +78,6 @@ slack_web_client = WebClient(token=os.environ.get("SLACK_TOKEN"))
 print(os.environ.get("SLACK_TOKEN"))
 
 client = MongoClient(host=os.environ['MONGO_HOST'], port=int(os.environ['MONGO_PORT']))
-#databases = client.list_database_names()
-
-#if DATABASE not in (databases):
-    #db = client[DATABASE]
-    #mensajes = slack_web_client.conversations_history(channel="#desarrollo")
-    #for mensaje in mensajes['messages']:
-    #    collection = db[mensaje['user']]
-    #    doc = get_doc(mensaje)
-    #    collection.insert_one(doc)
 
 # An example of one of your Flask app's routes
 @app.route("/")
@@ -97,6 +88,14 @@ def hello():
 def message(payload):
     #Inicio mongo
     client = MongoClient(host=os.environ.get("MONGO_HOST"), port=int(os.environ.get("MONGO_PORT")))
+    databases = client.list_database_names()
+    if DATABASE not in (databases):
+    	db = client[DATABASE]
+    	mensajes = slack_web_client.conversations_history(channel="#bot")
+    	for mensaje in mensajes['messages']:
+    		collection = db[mensaje['user']]
+    		doc = get_doc(mensaje)
+    		collection.insert_one(doc)
     db = client[DATABASE]
 
     #Obtención de evento
